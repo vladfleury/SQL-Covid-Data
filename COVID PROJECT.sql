@@ -1,4 +1,7 @@
-/*SELECT * 
+/*
+Data is retrived from https://ourworldindata.org/covid-deaths
+
+SELECT * 
 FROM CovidDeaths
 ORDER BY 3,4;
 
