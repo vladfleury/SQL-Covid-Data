@@ -149,13 +149,13 @@ WHERE continent IS NOT NULL
 ORDER BY 1,2
 
 
--- Death by continent
-SELECT location, SUM(new_deaths) as TotalDeathCount
+-- Death rate by continent
+SELECT location, MAX(total_deaths)*100/MAX(total_cases) as TotalDeathRate
 FROM CovidDeaths
 WHERE continent IS NULL
 AND location NOT IN ('World', 'European Union', 'International', 'Low income', 'Lower middle income', 'High income', 'Upper middle income')
 GROUP BY location
-ORDER BY TotalDeathCount DESC
+ORDER BY TotalDeathRate DESC
 
 -- overview of highest infection rates
 SELECT location, population, MAX(total_cases) as HighestInfectionCount,  MAX(total_cases/population)*100 as PercentPopulationInfected
