@@ -137,3 +137,34 @@ CREATE VIEW PercentPopulationVaccinated AS
 
 SELECT * 
 FROM PercentPopulationVaccinated
+
+
+
+-- QUERIES FOR TABLEAU PROJECT
+
+-- Overview of total cases, deaths, and percentage of deaths
+SELECT SUM(new_cases) as total_cases, SUM(new_deaths) as total_deaths, SUM(new_deaths)/SUM(new_Cases)*100 as DeathPercentage
+FROM CovidDeaths
+WHERE continent IS NOT NULL
+ORDER BY 1,2
+
+
+-- Death by continent
+SELECT location, SUM(new_deaths) as TotalDeathCount
+FROM CovidDeaths
+WHERE continent IS NULL
+AND location NOT IN ('World', 'European Union', 'International', 'Low income', 'Lower middle income', 'High income', 'Upper middle income')
+GROUP BY location
+ORDER BY TotalDeathCount DESC
+
+-- overview of highest infection rates
+SELECT location, population, MAX(total_cases) as HighestInfectionCount,  MAX(total_cases/population)*100 as PercentPopulationInfected
+FROM CovidDeaths
+GROUP BY location, population
+ORDER BY PercentPopulationInfected DESC
+
+-- Same as previous but grouping by date
+SELECT location, population, date, MAX(total_cases) as HighestInfectionCount, MAX(total_cases/population)*100 as PercentPopulationInfected
+FROM CovidDeaths
+GROUP BY location, population, date
+ORDER BY PercentPopulationInfected DESC
